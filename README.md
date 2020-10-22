@@ -5,7 +5,7 @@ Objective-Hooker is an extra tiny Objective-C framework that lets you hook Objec
 ## Features
 
 * Simple to integrate – just add one header file and one source file to your project
-* Simple to use – hooks are defined as if they were subclasses, use `super` to call the original implementation, or any other unhooked method.
+* Simple to use – hooks are defined as if they were subclasses, use `super` to call the original implementation, or any other unhooked method
 * Can hook classes with Swift-mangled names
 * Lets you easily hook and use classes that you don't link against; useful for hooking classes that come from the main executable
 
@@ -36,7 +36,7 @@ Note: Your hooking class must not declare any ivar, including implicit ivars aut
 
 ### Hooking and Using an Unlinked Class
 
-To hook or use a class your library does link against (For example, when your library is injected to an executable, and you wish to use or hook some of its classes), first declare its `@interface` as you'd usually do, then use the `OBHDynamicClass` macro with the class name. This will allow you to use and hook that class as if you linked to it properly. For example:
+To hook or use a class your library does link against (For example, when your library is injected into an executable, and you wish to use or hook some of its classes), first declare its `@interface` as you'd usually do, then use the `OBHDynamicClass` macro with the class name. This will allow you to use and hook that class as if you linked to it properly. For example:
 
 ```
 @interface DOCKIndicatorLayer : CALayer
@@ -47,14 +47,18 @@ To hook or use a class your library does link against (For example, when your li
 
 - (void)dockBackgroundChanged;
 - (void)updateIndicatorForSize:(float)arg1;
-- (id)init;
 @end
+
 OBHDynamicClass(DOCKIndicatorLayer)
+
+...
+
+[[DOCKIndicatorLayer alloc] init]; // You can now use that class like any normal class
 ```
 
 ### Hooking a Class with a Swift-Mangled name
 
-To hook an Objective-C class that is implemented in Swift, and has a Swift-mangled name, use `OBHHookSwiftClass` instead of `OCHHookClass`.  The `OBHHookSwiftClass` takes the Swift-mangled class name as the first argument, and the hooking class name as the second argument, and the Objective-C non-mangled class name as the third argument. All Swift-mangled classes are treated as if they're dynamically linked using `OBHDynamicClass`, but will use the Objective-C name you used as the third argument (for `@interface`, for example) for example:
+To hook an Objective-C class that is implemented in Swift, and has a Swift-mangled name, use `OBHHookSwiftClass` instead of `OCHHookClass`.  The `OBHHookSwiftClass` macro takes the Swift-mangled class name as the first argument, the hooking class name as the second argument, and the Objective-C non-mangled class name as the third argument. All Swift-mangled classes are treated as if they're dynamically linked using `OBHDynamicClass`, but will use the Objective-C name you used as the third argument (for example, in `@interface` or when calling class methods) for example:
 
 ```
 @interface FloorLayer : CALayer
